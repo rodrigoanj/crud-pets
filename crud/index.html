@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CRUD Pets</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- TÍTULO -->
+
+    <h1>Gerenciador De PetShop</h1>
+
+    <p class="subtitulo">
+        Sistema de gerenciamento de pets
+    </p>
+
+    <!-- FEEDBACK -->
+
+    <div
+        id="feedback"
+        aria-live="polite"
+        style="min-height:1.5em;"
+    ></div>
+
+    <!-- FORMULÁRIO -->
+
+    <form autocomplete="off">
+
+        <label for="NomePet">
+            Nome do Pet
+        </label>
+
+        <input
+            type="text"
+            id="NomePet"
+            name="NomePet"
+            placeholder="Digite o nome do pet"
+            autocomplete="off"
+        >
+
+        <label for="RacaPet">
+            Raça do Pet
+        </label>
+
+        <input
+            type="text"
+            id="RacaPet"
+            name="RacaPet"
+            placeholder="Digite a raça"
+            autocomplete="off"
+        >
+
+        <label for="IdadePet">
+            Idade do Pet
+        </label>
+
+        <input
+            type="number"
+            id="IdadePet"
+            name="IdadePet"
+            placeholder="Digite a idade"
+            autocomplete="off"
+        >
+
+        <label for="EspeciePet">
+            Espécie do Pet
+        </label>
+
+        <input
+            type="text"
+            id="EspeciePet"
+            name="EspeciePet"
+            placeholder="Digite a espécie"
+            autocomplete="off"
+        >
+
+        <input
+            type="submit"
+            value="Cadastrar"
+        >
+
+    </form>
+
+    <!-- TABELA -->
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Nome</th>
+
+                <th>Raça</th>
+
+                <th>Idade</th>
+
+                <th>Espécie</th>
+
+                <th>Ações</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="tabela-pets"></tbody>
+
+    </table>
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- SWEET ALERT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- SCRIPT -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
