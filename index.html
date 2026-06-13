@@ -27,6 +27,11 @@
             </p>
         </div>
 
+        <div class="topo-actions">
+            <a class="page-link" href="dashboard.html">Dashboard</a>
+            <a class="page-link" href="meus-pets.html">Meus Pets</a>
+        </div>
+
     </header>
 
     <!-- FEEDBACK -->
@@ -89,32 +94,20 @@
             autocomplete="off"
         >
 
-        <label for="TipoPet">
-            Tipo de Animal
-        </label>
-
-        <select
-            id="TipoPet"
-            name="TipoPet"
-            required
-        >
-            <option value="">-- Selecione o tipo --</option>
-            <option value="cão">Cão</option>
-            <option value="gato">Gato</option>
-            <option value="outro">Outro</option>
-        </select>
-
         <label for="EspeciePet">
             Espécie do Pet
         </label>
 
-        <input
-            type="text"
+        <select
             id="EspeciePet"
             name="EspeciePet"
-            placeholder="Digite a espécie"
-            autocomplete="off"
+            required
         >
+            <option value="">Selecione a espécie</option>
+            <option value="Cão">Cão</option>
+            <option value="Gato">Gato</option>
+            <option value="Outros">Outros</option>
+        </select>
 
         <label for="PesoPet">
             Peso do Pet

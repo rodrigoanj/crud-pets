@@ -1,0 +1,25 @@
+{
+  "name": "crud",
+  "version": "1.0.0",
+  "description": "CRUD Pets com Backend Node.js",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodrigoanj/crud-pets.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rodrigoanj/crud-pets/issues"
+  },
+  "homepage": "https://github.com/rodrigoanj/crud-pets#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

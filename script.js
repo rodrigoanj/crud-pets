@@ -145,7 +145,13 @@ async function carregarPets() {
             return;
         }
 
-        renderPetTable(data);
+        // Renderiza cards em meus-pets.html, tabela em index.html
+        const currentPage = document.body.getAttribute('data-page');
+        if (currentPage === 'meus-pets') {
+            renderPetCards(data);
+        } else {
+            renderPetTable(data);
+        }
     } catch (err) {
         console.error(err);
         mostrarMensagem(
@@ -193,6 +199,48 @@ function formatDate(value) {
 }
 
 // ==========================
+// IMAGEM PADRÃO
+// ==========================
+
+const DEFAULT_PET_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect fill="%230f172a" width="200" height="200"/%3E%3Ccircle cx="100" cy="70" r="30" fill="%233b82f6"/%3E%3Cellipse cx="80" cy="50" rx="8" ry="12" fill="%231e293b"/%3E%3Cellipse cx="120" cy="50" rx="8" ry="12" fill="%231e293b"/%3E%3Ccircle cx="90" cy="75" r="4" fill="%231e293b"/%3E%3Ccircle cx="110" cy="75" r="4" fill="%231e293b"/%3E%3Cpath d="M 95 85 Q 100 90 105 85" stroke="%231e293b" stroke-width="2" fill="none"/%3E%3Crect x="75" y="105" width="15" height="40" fill="%233b82f6"/%3E%3Crect x="110" y="105" width="15" height="40" fill="%233b82f6"/%3E%3Crect x="80" y="150" width="12" height="35" fill="%236b7280"/%3E%3Crect x="108" y="150" width="12" height="35" fill="%236b7280"/%3E%3Ctext x="100" y="200" text-anchor="middle" font-size="12" fill="%238b5cf6"%3EPet%3C/text%3E%3C/svg%3E';
+
+// ==========================
+// RENDERIZAR CARDS
+// ==========================
+
+function renderPetCards(data) {
+    if (!petsContainer) return;
+    petsContainer.innerHTML = '';
+
+    if (!data || data.length === 0) {
+        petsContainer.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #cbd5e1;">Nenhum pet registrado</div>';
+        return;
+    }
+
+    data.forEach((pet) => {
+        const petImage = (pet.photo_url && pet.photo_url.trim()) ? pet.photo_url : DEFAULT_PET_IMAGE;
+        
+        const card = document.createElement('div');
+        card.className = 'pet-card';
+        card.innerHTML = `
+            <img src="${petImage}" alt="${pet.nome}" onerror="this.src='${DEFAULT_PET_IMAGE}'">
+            <div class="pet-card-content">
+                <h2>${pet.nome}</h2>
+                <p><strong>Dono:</strong> ${pet.nome_dono || '—'}</p>
+                <p><strong>Raça:</strong> ${pet.raca || '—'}</p>
+                <p><strong>Espécie:</strong> ${pet.especie || '—'}</p>
+                <span class="badge">${pet.especie || 'Pet'}</span>
+            </div>
+            <div class="pet-card-actions">
+                <button class="view" onclick="verCarteirinha(${pet.id})">Ver Carteirinha</button>
+                <button class="delete" onclick="excluirPet(${pet.id})">Excluir</button>
+            </div>
+        `;
+        petsContainer.appendChild(card);
+    });
+}
+
+// ==========================
 // CADASTRAR PET
 // ==========================
 
@@ -232,11 +280,6 @@ if (form) {
                 .getElementById('EspeciePet')
                 .value;
 
-                const tipoPet =
-                document
-                .getElementById('TipoPet')
-                .value;
-
                 const peso =
                 document
                 .getElementById('PesoPet')
@@ -274,7 +317,6 @@ if (form) {
                                 raca,
                                 idade,
                                 especie,
-                                tipo_animal: tipoPet,
                                 peso,
                                 observacoes,
                                 photo_url: photoUrl
@@ -503,17 +545,6 @@ async function editarPet(id) {
                 value="${pet.idade}"
             >
 
-            <select
-                id="swal-tipo-animal"
-                class="swal2-input"
-                style="height: 40px; padding: 8px; margin-bottom: 16px;"
-            >
-                <option value="">-- Selecione o tipo --</option>
-                <option value="cão" ${pet.tipo_animal === 'cão' ? 'selected' : ''}>Cão</option>
-                <option value="gato" ${pet.tipo_animal === 'gato' ? 'selected' : ''}>Gato</option>
-                <option value="outro" ${pet.tipo_animal === 'outro' ? 'selected' : ''}>Outro</option>
-            </select>
-
             <input
                 id="swal-especie"
                 class="swal2-input"
@@ -573,11 +604,6 @@ async function editarPet(id) {
                 idade:
                 document
                 .getElementById('swal-idade')
-                .value,
-
-                tipo_animal:
-                document
-                .getElementById('swal-tipo-animal')
                 .value,
 
                 especie:
@@ -657,6 +683,113 @@ async function editarPet(id) {
     });
 
     carregarPets();
+}
+
+// ==========================
+// VER CARTEIRINHA DO PET
+// ==========================
+
+async function verCarteirinha(id) {
+    try {
+        let petData;
+
+        try {
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('timeout')), 5000)
+            );
+
+            const selectPromise = supabaseClient
+                .from('pets')
+                .select('*')
+                .eq('id', id)
+                .single();
+
+            const result = await Promise.race([selectPromise, timeoutPromise]);
+            petData = result.data;
+
+            if (result.error) {
+                throw result.error;
+            }
+        } catch (err) {
+            Swal.fire({
+                title: 'Erro',
+                text: 'Não foi possível carregar a carteirinha',
+                icon: 'error',
+                background: '#1e293b',
+                color: '#fff'
+            });
+            return;
+        }
+
+        const pet = petData;
+        const petImage = (pet.photo_url && pet.photo_url.trim()) ? pet.photo_url : DEFAULT_PET_IMAGE;
+        const dataCadastro = formatDate(pet.created_at);
+
+        await Swal.fire({
+            title: 'Carteirinha do Pet',
+            html: `
+                <div style="text-align: left; background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+                    <img src="${petImage}" alt="${pet.nome}" onerror="this.src='${DEFAULT_PET_IMAGE}'" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; display: block; background: #0f172a;">
+                    
+                    <div style="display: grid; gap: 12px;">
+                        <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                            <strong style="color: #06b6d4;">Nome do Pet:</strong>
+                            <p style="margin: 4px 0 0 0; color: #e2e8f0;">${pet.nome}</p>
+                        </div>
+
+                        <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                            <strong style="color: #06b6d4;">Nome do Dono:</strong>
+                            <p style="margin: 4px 0 0 0; color: #e2e8f0;">${pet.nome_dono || '—'}</p>
+                        </div>
+
+                        <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                            <strong style="color: #06b6d4;">Espécie:</strong>
+                            <p style="margin: 4px 0 0 0; color: #e2e8f0;">${pet.especie || '—'}</p>
+                        </div>
+
+                        <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                            <strong style="color: #06b6d4;">Raça:</strong>
+                            <p style="margin: 4px 0 0 0; color: #e2e8f0;">${pet.raca || '—'}</p>
+                        </div>
+
+                        <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                            <strong style="color: #06b6d4;">Idade:</strong>
+                            <p style="margin: 4px 0 0 0; color: #e2e8f0;">${pet.idade || '—'} anos</p>
+                        </div>
+
+                        <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                            <strong style="color: #06b6d4;">Peso:</strong>
+                            <p style="margin: 4px 0 0 0; color: #e2e8f0;">${pet.peso || '—'} kg</p>
+                        </div>
+
+                        <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                            <strong style="color: #06b6d4;">Observações:</strong>
+                            <p style="margin: 4px 0 0 0; color: #e2e8f0;">${pet.observacoes || '—'}</p>
+                        </div>
+
+                        <div>
+                            <strong style="color: #06b6d4;">Data de Cadastro:</strong>
+                            <p style="margin: 4px 0 0 0; color: #e2e8f0;">${dataCadastro}</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+            confirmButtonText: 'Fechar',
+            confirmButtonColor: '#3b82f6',
+            background: '#1e293b',
+            color: '#fff',
+            width: '500px'
+        });
+    } catch (err) {
+        console.error(err);
+        Swal.fire({
+            title: 'Erro',
+            text: 'Erro ao carregar carteirinha',
+            icon: 'error',
+            background: '#1e293b',
+            color: '#fff'
+        });
+    }
 }
 
 // ==========================

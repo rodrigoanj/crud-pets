@@ -255,29 +255,6 @@ textarea:focus {
     box-shadow: 0 0 12px rgba(56,189,248,0.5);
 }
 
-select {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.08);
-    color: white;
-    font-size: 15px;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-select:focus {
-    outline: none;
-    border-color: #38bdf8;
-    box-shadow: 0 0 12px rgba(56,189,248,0.5);
-}
-
-select option {
-    background: #1e293b;
-    color: white;
-}
-
 input::placeholder {
 
     color: #cbd5e1;
@@ -493,4 +470,357 @@ button:hover {
 
         font-size: 32px;
     }
+}
+
+/* =========================
+   DASHBOARD - ESTATÍSTICAS
+========================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto 40px;
+}
+
+.stat-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.12);
+}
+
+.stat-icon {
+    font-size: 48px;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-card h3 {
+    font-size: 14px;
+    color: #cbd5e1;
+    font-weight: 600;
+    margin: 0;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #06b6d4;
+    margin: 0;
+}
+
+.dashboard-section {
+    max-width: 1100px;
+    margin: 0 auto 40px;
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 24px;
+    color: #ffffff;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        padding: 16px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .stat-icon {
+        font-size: 36px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topo {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .topo-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .topo button,
+    .topo .page-link {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .subtitulo {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    form {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .cards-grid {
+        gap: 16px;
+    }
+
+    .pet-card {
+        border-radius: 16px;
+    }
+
+    .pet-card img {
+        height: 160px;
+    }
+
+    .pet-card-content {
+        padding: 16px;
+        gap: 8px;
+    }
+
+    .pet-card h2 {
+        font-size: 18px;
+    }
+
+    .pet-card p {
+        font-size: 13px;
+    }
+
+    .stat-card h3 {
+        font-size: 12px;
+    }
+
+    .stat-number {
+        font-size: 20px;
+    }
+
+    table {
+        font-size: 11px;
+    }
+
+    th,
+    td {
+        padding: 8px;
+    }
+
+    .btn-editar,
+    .btn-excluir {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+}
+
+/* =========================
+   MELHORIAS - CARDS HOVER
+========================= */
+
+.pet-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.pet-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.6s;
+    z-index: 1;
+}
+
+.pet-card:hover::before {
+    left: 100%;
+}
+
+.pet-card:hover {
+    box-shadow: 0 20px 60px rgba(6,182,212,0.3);
+    border-color: rgba(6,182,212,0.3);
+    transform: translateY(-8px);
+}
+
+.pet-card-actions button {
+    transition: all 0.3s ease;
+    min-height: 44px;
+}
+
+.pet-card-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.pet-card-actions button.view:hover {
+    box-shadow: 0 8px 20px rgba(59,130,246,0.4);
+}
+
+.pet-card-actions button.delete:hover {
+    box-shadow: 0 8px 20px rgba(239,68,68,0.4);
+}
+
+/* =========================
+   MELHORIAS - FORMULÁRIO
+========================= */
+
+form {
+    transition: all 0.3s ease;
+}
+
+form:hover {
+    box-shadow: 0 12px 40px rgba(59,130,246,0.2);
+}
+
+input,
+textarea {
+    transition: all 0.3s ease;
+}
+
+input:hover,
+textarea:hover {
+    border-color: rgba(56,189,248,0.4);
+}
+
+input:focus,
+textarea:focus {
+    box-shadow: 0 0 20px rgba(56,189,248,0.6);
+    border-color: #06b6d4;
+}
+
+/* =========================
+   MELHORIAS - BOTÕES
+========================= */
+
+button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* =========================
+   MELHORIAS - TABELA
+========================= */
+
+table {
+    transition: all 0.3s ease;
+}
+
+tbody tr {
+    transition: all 0.3s ease;
+}
+
+tbody tr:hover {
+    background: rgba(59,130,246,0.15);
+    box-shadow: inset 0 0 10px rgba(59,130,246,0.1);
+}
+
+/* =========================
+   MELHORIAS - GRID RESPONSIVO
+========================= */
+
+.cards-grid {
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 1200px) {
+    .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .stat-card {
+        gap: 12px;
+    }
+
+    .stat-icon {
+        font-size: 40px;
+    }
+
+    .stat-number {
+        font-size: 28px;
+    }
+}
+
+/* =========================
+   ACESSIBILIDADE
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .pet-card::before {
+        display: none;
+    }
+}
+
+/* =========================
+   DARK MODE ENHANCEMENTS
+========================= */
+
+input[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.pet-card img {
+    transition: all 0.3s ease;
+}
+
+.pet-card:hover img {
+    transform: scale(1.05);
 }

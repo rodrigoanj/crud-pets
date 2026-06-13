@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pets - PetShop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="meus-pets">
+
+    <header class="topo">
+
+        <div>
+            <h1>Meus Pets</h1>
+            <p class="subtitulo">
+                Visualize seus pets em formato de cards.
+            </p>
+        </div>
+
+        <div class="topo-actions">
+    <a class="page-link" href="index.html">Gerenciar Pets</a>
+</div>
+    </header>
+
+    <div id="feedback" aria-live="polite" style="min-height:1.5em;"></div>
+
+    <section id="pets-container" class="cards-grid"></section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

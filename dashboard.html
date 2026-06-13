@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PetShop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="dashboard">
+
+    <header class="topo">
+
+        <div>
+            <h1>Dashboard</h1>
+            <p class="subtitulo">
+                Estatísticas e resumo de seus pets
+            </p>
+        </div>
+
+        <div class="topo-actions">
+            <a class="page-link" href="index.html">Gerenciar Pets</a>
+            <a class="page-link" href="meus-pets.html">Meus Pets</a>
+        </div>
+    </header>
+
+    <div id="feedback" aria-live="polite" style="min-height:1.5em;"></div>
+
+    <!-- ESTATÍSTICAS -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">🐾</div>
+            <div class="stat-content">
+                <h3>Total de Pets</h3>
+                <p class="stat-number" id="total-pets">0</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🐕</div>
+            <div class="stat-content">
+                <h3>Cães</h3>
+                <p class="stat-number" id="total-dogs">0</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🐈</div>
+            <div class="stat-content">
+                <h3>Gatos</h3>
+                <p class="stat-number" id="total-cats">0</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🦜</div>
+            <div class="stat-content">
+                <h3>Outros</h3>
+                <p class="stat-number" id="total-others">0</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ÚLTIMOS PETS CADASTRADOS -->
+    <section class="dashboard-section">
+        <h2 class="section-title">Últimos Pets Cadastrados</h2>
+        <div id="recent-pets-container" class="cards-grid"></div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
